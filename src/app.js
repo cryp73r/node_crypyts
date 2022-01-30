@@ -3,6 +3,8 @@ const hbs = require('hbs')
 const movie_suggestions = require('./utils/movie_suggestions')
 const movie_details = require('./utils/movie_details')
 const list_movies = require('./utils/list_movies')
+const images = require('./utils/images')
+const { contentType } = require('express/lib/response')
 
 const app = express()
 const port = process.env.PORT || 3000
@@ -73,6 +75,26 @@ app.get('/movie_suggestions', (req, res)=>{
         }
         res.send(moviesData)
         
+    })
+})
+
+app.get('/images', (req, res)=>{
+    const url = req.query.url
+    if (!url) {
+        return res.send({
+            status: 'error',
+            status_message: 'URL required!'
+        })
+    }
+    images.images(url, (error, imageData)=>{
+        if (error) {
+            return res.send({
+                status: 'error',
+                status_message: error
+            })
+        }
+        res.set('Content-Type', 'image/jpeg')
+        res.send(imageData)
     })
 })
 
