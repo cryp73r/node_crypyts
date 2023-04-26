@@ -33,6 +33,13 @@ app.get('', (req, res)=>{
     })
 })
 
+app.get('/healthz', (req, res)=>{
+    res.status(200).send({
+        status: 'success',
+        status_message: 'Health is OK'
+    })
+})
+
 app.get('/documentation', (req, res)=>{
     res.send({
         status: 'success',
